@@ -1,0 +1,5 @@
+{ "package": "git",
+  "version": "1.8.5.2.msysgit.0",
+  "downloads": [ "https://github.com/duckspot/devops/releases/download/v2014-03-03/Git.zip"],
+  "script": []
+}
