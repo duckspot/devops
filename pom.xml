@@ -46,6 +46,7 @@
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
 
