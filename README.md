@@ -1,6 +1,3 @@
-roadie
-======
-
 ![][logo]
 
 roadie setups your custom portable development environment
