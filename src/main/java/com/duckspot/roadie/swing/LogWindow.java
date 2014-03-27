@@ -23,7 +23,7 @@ public class LogWindow extends JFrame implements PropertyChangeListener  {
      
         setTitle("Roadie");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
-        setSize(400,500);
+        setSize(485,500);
         add(new TitlePanel(), BorderLayout.NORTH);
         
         logPanel = new LogPanel();
