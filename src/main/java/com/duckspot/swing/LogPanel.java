@@ -1,4 +1,4 @@
-package com.duckspot.devops.swing;
+package com.duckspot.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

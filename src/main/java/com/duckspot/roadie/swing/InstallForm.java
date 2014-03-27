@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.duckspot.devops.swing;
+package com.duckspot.roadie.swing;
 
-import com.duckspot.devops.Init;
+import com.duckspot.swing.PrintBuilder;
+import com.duckspot.roadie.Init;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -78,7 +79,7 @@ public class InstallForm extends javax.swing.JFrame {
         installLocationField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
         installButton = new javax.swing.JButton();
-        titlePanel1 = new com.duckspot.devops.swing.TitlePanel();
+        titlePanel1 = new com.duckspot.roadie.swing.TitlePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,6 +204,6 @@ public class InstallForm extends javax.swing.JFrame {
     private javax.swing.JTextField installLocationField;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
-    private com.duckspot.devops.swing.TitlePanel titlePanel1;
+    private com.duckspot.roadie.swing.TitlePanel titlePanel1;
     // End of variables declaration//GEN-END:variables
 }

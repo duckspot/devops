@@ -1,7 +1,8 @@
-package com.duckspot.devops.cmd;
+package com.duckspot.roadie;
 
-import com.duckspot.devops.download.Download;
-import com.duckspot.devops.download.Downloader;
+import com.duckspot.roadie.cmd.App;
+import com.duckspot.roadie.download.Download;
+import com.duckspot.roadie.download.Downloader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -89,7 +90,7 @@ public class Package {
      * Download all downloads needed by this package, and append lines to 
      * install file.
      */
-    void install(PrintWriter finishScript) {
+    public void install(PrintWriter finishScript) {
         try {
             for (String download : getDownloads()) {
                 File dst = new File(getLocalName(download));
@@ -104,7 +105,7 @@ public class Package {
         }
     }
     
-    void install() throws IOException {
+    public void install() throws IOException {
         Path varDevopsFolder = Paths.get(getDevPath(), "var", "devops");
         Files.createDirectories(varDevopsFolder);
         Path finishScriptPath = varDevopsFolder.resolve("finish.bat");        

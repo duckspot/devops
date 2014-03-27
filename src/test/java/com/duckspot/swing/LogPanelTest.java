@@ -1,7 +1,7 @@
-package com.duckspot.devops.swing;
+package com.duckspot.swing;
 
-import com.duckspot.devops.swing.LogPanel;
-import com.duckspot.devops.swing.PrintBuilder;
+import com.duckspot.swing.LogPanel;
+import com.duckspot.swing.PrintBuilder;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.util.logging.Level;

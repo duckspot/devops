@@ -1,5 +1,7 @@
-package com.duckspot.devops.swing;
+package com.duckspot.roadie.swing;
 
+import com.duckspot.swing.LogPanel;
+import com.duckspot.swing.PrintBuilder;
 import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -16,7 +18,7 @@ public class LogWindow extends JFrame implements PropertyChangeListener  {
     LogPanel getLogPanel() {
         return logPanel;
     }
-    
+        
     private void init() {
      
         setTitle("Roadie");

@@ -1,6 +1,6 @@
-package com.duckspot.devops.swing;
+package com.duckspot.swing;
 
-import com.duckspot.devops.swing.PrintBuilder;
+import com.duckspot.swing.PrintBuilder;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;

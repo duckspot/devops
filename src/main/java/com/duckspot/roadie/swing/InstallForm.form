@@ -102,7 +102,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="com.duckspot.devops.swing.TitlePanel" name="titlePanel1">
+    <Component class="com.duckspot.roadie.swing.TitlePanel" name="titlePanel1">
     </Component>
   </SubComponents>
 </Form>

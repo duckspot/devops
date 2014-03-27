@@ -1,4 +1,4 @@
-package com.duckspot.devops.download;
+package com.duckspot.roadie.download;
 
 import java.io.File;
 import java.net.URL;
