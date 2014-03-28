@@ -1,1 +1,1 @@
-copy target\devops-1.0-SNAPSHOT-jar-with-dependencies.jar %DEV_TOOLS%\devops.jar
+copy target\roadie-1.0-SNAPSHOT-jar-with-dependencies.jar %DEV_PATH%\roadie.jar
