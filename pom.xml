@@ -4,15 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.duckspot</groupId>
-    <artifactId>devops</artifactId>
+    <artifactId>roadie</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>devops</name>
+    <name>roadie</name>
     <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <main.class>com.duckspot.roadie.cmd.App</main.class>
         <jdk.version>1.7</jdk.version>
         <log4j.version>1.2.17</log4j.version>
         <junit.version>4.11</junit.version>
@@ -38,13 +39,32 @@
     </dependencies>
   
     <build>
-        <plugins>
+        <plugins>            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-jar</argument>
+                        <argument>${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.duckspot.roadie.cmd.App</mainClass>
+                            <mainClass>${main.class}</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

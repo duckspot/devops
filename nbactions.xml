@@ -6,12 +6,8 @@
                 <packaging>jar</packaging>
             </packagings>
             <goals>
-                <goal>process-classes</goal>
-                <goal>org.codehaus.moj o:exec-maven-plugin:1.2.1:exec</goal>
+                <goal>exec:exec</goal>
+                
             </goals>
-            <properties>
-                <exec.args>-classpath %classpath com.duckspot.devops.get.App</exec.args>
-                <exec.executable>java</exec.executable>
-            </properties>
         </action>
     </actions>
