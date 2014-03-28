@@ -1,2 +1,2 @@
-@java -jar target\devops-1.0-SNAPSHOT.one-jar.jar %*
-@%dev_path%\var\devops\finish.bat
+@java -jar target\roadie-1.0-SNAPSHOT-jar-with-dependencies.jar %*
+@rem %dev_path%\var\devops\finish.bat
