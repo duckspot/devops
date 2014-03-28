@@ -3,6 +3,7 @@ package com.duckspot.roadie;
 import com.duckspot.roadie.cmd.App;
 import com.duckspot.roadie.download.Download;
 import com.duckspot.roadie.download.Downloader;
+import com.duckspot.util.JsonUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,7 +24,7 @@ import org.json.JSONTokener;
  *
  * @author peter
  */
-public class Package {
+public class Tool {
     
     static final String fmt = "https://raw.github.com/duckspot/devops/master"
             + "/src/main/resources/packages/%s.json";
@@ -36,24 +37,25 @@ public class Package {
         }
     }
     
-    static JSONObject getJSON( URL url ) throws IOException {
-        return new JSONObject(new JSONTokener(url.openStream()));
-    }
-    
     String name;
+    String version;
     JSONObject config;
     
-    public Package(String name) {
+    public Tool(String name) {
         this.name = name;
+    }
+
+    public void select(String version) {
+        this.version = version;
     }
     
     public JSONObject getConfig() throws IOException {
         if (config == null) {
-            config = getJSON(packageURL(name));
+            config = JsonUtil.getJSON(packageURL(name));
         }
         return config;
     }
-    
+
     public String[] getStringArray(String key) throws IOException {
         JSONArray ja = getConfig().getJSONArray(key);
         String[] result = new String[ja.length()];
@@ -62,7 +64,7 @@ public class Package {
         }
         return result;
     }
-    
+
     public String[] getDownloads() throws IOException {
         return getStringArray("downloads");
     }

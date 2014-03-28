@@ -48,6 +48,8 @@ public class RoadiePaths {
                 return Paths.get(devopsPath, "var", "cache", "devops", "partial");
 
             // FILES:
+            case "roadie.jar":
+                return Paths.get(devopsPath, "roadie.jar");
             case "setup.bat":
                 return Paths.get(devopsPath, "setup.bat");
             case "user.bat":

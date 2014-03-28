@@ -1,19 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.duckspot.roadie.swing;
 
+import com.duckspot.roadie.Config;
 import com.duckspot.swing.PrintBuilder;
 import com.duckspot.roadie.Init;
+import com.duckspot.roadie.RoadiePaths;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 
 /**
- *
- * @author peter
+ * Find out install directory, check configuration, init if necessary, and
+ * then display ConfigForm.
  */
 public class InstallForm extends javax.swing.JFrame {
 
@@ -31,7 +27,7 @@ public class InstallForm extends javax.swing.JFrame {
         installLocationField.setText(userDir);
     }
     
-    void guiInstall(final String installDir) {
+    void guiInit() {
         LogWindow logWindow = new LogWindow();
         logWindow.setVisible(true);
         final PrintBuilder printBuilder = new PrintBuilder();
@@ -40,7 +36,7 @@ public class InstallForm extends javax.swing.JFrame {
         SwingWorker worker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {                
-                Init.install(installDir);
+                Init.install();
                 return null;
             }
             @Override
@@ -48,7 +44,19 @@ public class InstallForm extends javax.swing.JFrame {
                 printBuilder.setComplete(true);
             }
         };
-        worker.execute();
+        worker.execute();        
+    }
+    
+    void guiInstall(final String installDir) {
+        RoadiePaths.setDevRoot(installDir);
+        Config config = new Config();
+        if (config.isValidSetup()) {
+            ConfigForm cf = new ConfigForm();
+            this.setVisible(false);
+            cf.setVisible(true);
+        } else {
+            guiInit();
+        }
     }
     
     /**
@@ -134,19 +142,27 @@ public class InstallForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-                String installDir = installLocationField.getText();
-                JFileChooser fc = new JFileChooser(installDir);
-                fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                int r = fc.showDialog(InstallForm.this, "Choose");
-                if (r == JFileChooser.APPROVE_OPTION) {
-                    installLocationField.setText(
-                            fc.getSelectedFile().toString());
-                }
+        String installDir = installLocationField.getText();
+        JFileChooser fc = new JFileChooser(installDir);
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int r = fc.showDialog(InstallForm.this, "Choose");
+        if (r == JFileChooser.APPROVE_OPTION) {
+            installLocationField.setText(
+                    fc.getSelectedFile().toString());
+        }
     }//GEN-LAST:event_browseButtonActionPerformed
 
     private void installButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installButtonActionPerformed
-                InstallForm.this.setVisible(false);
-                guiInstall(installLocationField.getText());                
+        this.setVisible(false);
+        RoadiePaths.setDevRoot(installLocationField.getText());
+        Config config = new Config();
+        if (config.isValidSetup()) {
+            ConfigForm cf = new ConfigForm();
+            cf.setConfig(config);
+            cf.setVisible(true);
+        } else {
+            guiInit();
+        }
     }//GEN-LAST:event_installButtonActionPerformed
 
     /**

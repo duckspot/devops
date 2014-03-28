@@ -18,7 +18,7 @@ public class JsonUtil {
      * @return
      * @throws IOException 
      */
-    static JSONObject getJSON( URL url ) throws IOException {
+    public static JSONObject getJSON( URL url ) throws IOException {
         return new JSONObject(new JSONTokener(url.openStream()));
     }
 }

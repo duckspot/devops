@@ -3,7 +3,7 @@ package com.duckspot.roadie.cmd;
 import com.duckspot.swing.PrintBuilder;
 import com.duckspot.roadie.swing.InstallForm;
 import com.duckspot.roadie.Init;
-import com.duckspot.roadie.Package;
+import com.duckspot.roadie.Tool;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -86,7 +86,7 @@ public class App
                     throw new Error("install command requires one argument: package-name");
                 }
                 System.out.printf("install %s", args[1]);
-                new Package(args[1]).install();
+                new Tool(args[1]).install();
                 break;
 
             default:
