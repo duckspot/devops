@@ -8,12 +8,6 @@ package com.duckspot.roadie.swing;
 
 import com.duckspot.swing.PrintBuilder;
 import com.duckspot.roadie.Init;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 
@@ -34,7 +28,7 @@ public class InstallForm extends javax.swing.JFrame {
     
     private void init() {
         String userDir = System.getProperty("user.dir");
-        installLocationField.setText(userDir);                        
+        installLocationField.setText(userDir);
     }
     
     void guiInstall(final String installDir) {
@@ -46,15 +40,7 @@ public class InstallForm extends javax.swing.JFrame {
         SwingWorker worker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {                
-//              Init.install(installDir);
-                // dummy code
-                for (int i=1; i<=100;i++) {
-                    printBuilder.append(String.format("%3d\r",i));
-                    if (i%10 == 0) {
-                        printBuilder.append("\n");
-                    }
-                    Thread.sleep(200L);
-                }
+                Init.install(installDir);
                 return null;
             }
             @Override

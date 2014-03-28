@@ -1,6 +1,5 @@
 package com.duckspot.roadie;
 
-import com.duckspot.roadie.RoadiePaths;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.After;
@@ -10,9 +9,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class DevopsPathsTest {
+public class RoadiePathsTest {
     
-    public DevopsPathsTest() {
+    public RoadiePathsTest() {
     }
     
     @BeforeClass
@@ -25,6 +24,7 @@ public class DevopsPathsTest {
     
     @Before
     public void setUp() {
+        RoadiePaths.setDevRoot(getPath());
     }
     
     @After
@@ -58,7 +58,7 @@ public class DevopsPathsTest {
      */
     @Test
     public void testGetDrive() {
-        System.out.println("getDrive");        
+        System.out.println("getDrive");
         String expResult = System.getProperty("user.dir").substring(0, 1);
         String result = RoadiePaths.getDrive();
         assertEquals(expResult, result);

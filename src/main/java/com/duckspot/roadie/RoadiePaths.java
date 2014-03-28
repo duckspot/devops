@@ -13,30 +13,28 @@ public class RoadiePaths {
     private static String devopsDrive;
     
     static {
+        devopsPath = System.getenv("DEVOPS");
         if (devopsPath == null) {
-            devopsPath = System.getenv("DEVOPS");
+            devopsPath = System.getenv("DEV_PATH");
             if (devopsPath == null) {
-                devopsPath = System.getenv("DEV_PATH");
-                if (devopsPath == null) {
-                    devopsPath = Paths.get("").toAbsolutePath().toString();
-                }
-            }       
-        }
+                devopsPath = Paths.get("").toAbsolutePath().toString();
+            }
+        }           
     }
     
     public static void setDevRoot(String path) {
         devopsPath = path;
         devopsDrive = null;
     }
-    
-    public static String getDrive() {        
+
+    public static String getDrive() {
         if (devopsDrive == null && devopsPath != null 
                 && devopsPath.length() > 1 && devopsPath.charAt(1) == ':') {
             devopsDrive = devopsPath.substring(0, 1);
         }
         return devopsDrive;
     }
-    
+
     public static Path get(String s) {
         switch (s) {
             // FOLDERS:

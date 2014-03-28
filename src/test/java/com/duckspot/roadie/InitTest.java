@@ -1,11 +1,12 @@
 package com.duckspot.roadie;
 
-import com.duckspot.roadie.Init;
+import com.duckspot.swing.PrintBuilder;
+import com.duckspot.util.FileUtil;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.nio.file.Paths;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,6 +16,14 @@ import static org.junit.Assert.*;
 
 public class InitTest {
     
+    static String[] resources = {
+            "setup.bat",
+            "user.bat",
+            "tools/setup.bat"
+        };
+    String testLocation = "testDir";
+    Path testDir = Paths.get(testLocation);    
+        
     public InitTest() {
     }
     
@@ -28,23 +37,19 @@ public class InitTest {
     
     @Before
     public void setUp() {
+        
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws IOException {
+        FileUtil.deleteDirectory(testDir);
     }
 
     @Test
     public void testResources() throws IOException {
-        System.out.println("resources exist");
-        String[] resources = {
-            "/dev/setup.bat",
-            "/dev/user.bat",
-            "/dev/tools/setup.bat"
-        };
+        System.out.println("resources exist");        
         for (String name: resources) {
-            Init i = new Init();
-            InputStream is = getClass().getResourceAsStream(name);
+            InputStream is = getClass().getResourceAsStream("/dev/"+name);
             assertTrue(is != null);
             assertTrue(is.available() > 0);
             is.close();
@@ -52,72 +57,58 @@ public class InitTest {
     }        
 
     /**
-     * Test of checkDirectory method, of class Init.
+     * Test of setOutput method, of class Init.
      */
-//    @Test
-//    public void testCheckDirectory() {
-//        System.out.println("checkDirectory");
-//        Path path = null;
-//        Init.checkDirectory(path);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of copyResource method, of class Init.
-     */
-//    @Test
-//    public void testCopyResource() {
-//        System.out.println("copyResource");
-//        String resource = "";
-//        Init.copyResource(resource);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testSetOutput() {
+        System.out.println("setOutput");
+        PrintBuilder printBuilder = new PrintBuilder();
+        String s = "test";
+        Init.setOutput(printBuilder);
+        Init.output(s);
+        assertEquals(s,printBuilder.getText());
+    }
 
     /**
      * Test of output method, of class Init.
      */
-//    @Test
-//    public void testOutput() {
-//        System.out.println("output");
-//        String s = "";
-//        Init.output(s);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testOutput() {
+        System.out.println("output");
+        PrintBuilder printBuilder = new PrintBuilder();
+        String s = "test";
+        Init.setOutput(printBuilder);
+        Init.output(s);
+        assertEquals(s,printBuilder.getText());
+    }
 
     /**
-     * Test of end method, of class Init.
+     * Test of copyResource method, of class Init.
      */
-//    @Test
-//    public void testEnd() {
-//        System.out.println("end");
-//        Init.end();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
-    /**
-     * Test of install method, of class Init.
-     */
-//    @Test
-//    public void testInstall_0args() {
-//        System.out.println("install");
-//        Init.install();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testCopyResource() {
+        System.out.println("copyResource");
+        String resource = resources[0];
+        RoadiePaths.setDevRoot(testLocation);
+        for (String name: resources) {
+            Init.copyResource(name);
+            Path file = Paths.get(testLocation+"\\"+name);            
+            assert(Files.exists(file));
+        }
+    }
 
     /**
      * Test of install method, of class Init.
      */
-//    @Test
-//    public void testInstall_String() {
-//        System.out.println("install");
-//        String devPath = "";
-//        Init.install(devPath);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testInstall_String() {
+        System.out.println("install");
+        String devPath = testLocation;
+        Init.install(devPath);
+        for (String name: resources) {
+            Path file = Paths.get(testLocation+"\\"+name);
+            System.out.println("file:"+file);
+            assert(Files.exists(file));
+        }
+    }        
 }

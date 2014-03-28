@@ -48,7 +48,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="installLocationField" pref="134" max="32767" attributes="0"/>
+                  <Component id="installLocationField" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="installButton" alignment="1" max="32767" attributes="0"/>
