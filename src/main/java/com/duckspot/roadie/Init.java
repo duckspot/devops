@@ -1,11 +1,13 @@
 package com.duckspot.roadie;
 
+import com.duckspot.util.ListFile;
 import com.duckspot.swing.PrintBuilder;
 import com.duckspot.util.FileUtil;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.NoSuchElementException;
 
 /**
  * Init is responsible for setting up roadie so it's ready to accept the 
@@ -45,18 +47,18 @@ public class Init {
         }
     }
     
-    public static void install() {
-
+    public void install() throws IOException {
+        
         output("copy resources ...");
-        copyResource("setup.bat");
-        copyResource("user.bat");
-        copyResource("tools/setup.bat");        
+        ListFile list = new ListFile(
+                getClass().getResourceAsStream("/dev/file.list"));
+        try {
+            while (true) {
+                copyResource(list.nextLine());
+            }
+        } catch (NoSuchElementException ex) {
+            System.out.println("ex:"+ex);
+        }
         output("\ndone.");
-    }
-    
-    public static void install(String devPath) {
-        output(String.format("installing roadie to '%s'\n", devPath));
-        RoadiePaths.setDevRoot(devPath);
-        install();
     }
 }

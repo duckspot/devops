@@ -42,11 +42,9 @@ public class RoadiePaths {
                 return Paths.get(devopsPath);
             case "tools": // organized by package
                 return Paths.get(devopsPath, "tools");
-            case "packages": // organized by package
-                return Paths.get(devopsPath, "var", "cache", "devops");
-            case "packages/partial": // organized by package then moved to packages
-                return Paths.get(devopsPath, "var", "cache", "devops", "partial");
-
+            case "cache": // organized by package
+                return Paths.get(devopsPath, "var", "cache", "roadie");
+            
             // FILES:
             case "roadie.jar":
                 return Paths.get(devopsPath, "roadie.jar");
@@ -57,7 +55,9 @@ public class RoadiePaths {
             case "tools/setup.bat":
                 return Paths.get(devopsPath, "tools", "setup.bat");
             case "sources.list":
-                return Paths.get(devopsPath, "tools", "devops", "sources.list");
+                return Paths.get(devopsPath, "tools", "roadie", "sources.list");
+            case "sources.online":
+                return Paths.get(devopsPath, "var", "cache", "roadie", "sources.online");
 
             // FAIL
             default:
