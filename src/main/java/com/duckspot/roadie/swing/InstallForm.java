@@ -36,7 +36,7 @@ public class InstallForm extends javax.swing.JFrame {
         SwingWorker worker = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {                
-                Init.install();
+                new Init().install();
                 return null;
             }
             @Override

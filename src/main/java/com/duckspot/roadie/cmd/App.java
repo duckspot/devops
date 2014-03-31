@@ -3,6 +3,7 @@ package com.duckspot.roadie.cmd;
 import com.duckspot.swing.PrintBuilder;
 import com.duckspot.roadie.swing.InstallForm;
 import com.duckspot.roadie.Init;
+import com.duckspot.roadie.RoadiePaths;
 import com.duckspot.roadie.Tool;
 import java.io.IOException;
 import java.util.Scanner;
@@ -67,7 +68,8 @@ public class App
         System.out.println("roadie");
         if (!installCorrect()) {
             if (askInstall()) {
-                Init.install(askLocation());
+                RoadiePaths.setDevRoot(askLocation());
+                new Init().install();
             }
             return;
         }
@@ -76,19 +78,26 @@ public class App
             case "init":
                 System.out.println("init");
                 if (args.length == 1) {
-                    Init.install();
+                    new Init().install();
                 } else {
-                    Init.install(args[1]);
+                    RoadiePaths.setDevRoot(args[1]);
+                    new Init().install();
                 }
 
             case "install":
-                if (args.length != 2) {
-                    throw new Error("install command requires one argument: package-name");
+                if (args.length == 2) {                    
+                    System.out.printf("install %s", args[1]);
+                    new Tool(args[1]).install();
+                    break;
                 }
-                System.out.printf("install %s", args[1]);
-                new Tool(args[1]).install();
-                break;
-
+                if (args.length == 3) {
+                    System.out.printf("install %s", args[1]);
+                    new Tool(args[1]).select(args[3]).install();
+                    break;
+                }
+                throw new Error("install command requires one or two arguments: "
+                            + "tool-name [version]");
+                
             default:
                 System.out.println("unrecognized command.");
         }            

@@ -1,11 +1,11 @@
-{ "package": "git",
+{ "tool": "git",
   "version": "1.8.5.2.msysgit.0",
   "downloads": [ "https://github.com/duckspot/devops/releases/download/v2014-03-03/Git.zip"],
-  "script": [
-    "unzip %DEV_PATH%\\var\\devops\\git\\Git.zip -d %DEV_TOOLS%",
-    "echo rem >> %DEV_TOOLS%\\setup.bat",
-    "echo rem tools: Git >> %DEV_TOOLS%\\setup.bat",
-    "set GIT_HOME=%DEV_TOOLS%\\Git >> %DEV_TOOLS%\\setup.bat",
-	"path %GIT_HOME%\\bin;%path% >> %DEV_TOOLS%\\setup.bat"
+  "install": [
+    "unzip %DEV_PATH%\\var\\devops\\git\\Git.zip -d %DEV_TOOLS%"    
+  ],
+  "setup": [
+    "set GIT_HOME=%DEV_TOOLS%\\Git",
+    "path %GIT_HOME%\\bin;%path%"
   ]
 }

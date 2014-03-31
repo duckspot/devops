@@ -18,11 +18,14 @@ public class InitTest {
     
     static String[] resources = {
             "setup.bat",
+            "sources.list",
             "user.bat",
             "tools/setup.bat"
         };
-    String testLocation = "testDir";
-    Path testDir = Paths.get(testLocation);    
+    static String testLocation = "testDir";
+    static Path testDir = Paths.get(testLocation);
+    
+    Init instance;
         
     public InitTest() {
     }
@@ -36,13 +39,14 @@ public class InitTest {
     }
     
     @Before
-    public void setUp() {
-        
+    public void setUp() throws IOException {
+        instance = new Init();
+        FileUtil.deleteDirectory(testDir);
     }
     
     @After
     public void tearDown() throws IOException {
-        FileUtil.deleteDirectory(testDir);
+//        FileUtil.deleteDirectory(testDir);
     }
 
     @Test
@@ -64,8 +68,8 @@ public class InitTest {
         System.out.println("setOutput");
         PrintBuilder printBuilder = new PrintBuilder();
         String s = "test";
-        Init.setOutput(printBuilder);
-        Init.output(s);
+        instance.setOutput(printBuilder);
+        instance.output(s);
         assertEquals(s,printBuilder.getText());
     }
 
@@ -77,8 +81,8 @@ public class InitTest {
         System.out.println("output");
         PrintBuilder printBuilder = new PrintBuilder();
         String s = "test";
-        Init.setOutput(printBuilder);
-        Init.output(s);
+        instance.setOutput(printBuilder);
+        instance.output(s);
         assertEquals(s,printBuilder.getText());
     }
 
@@ -91,8 +95,8 @@ public class InitTest {
         String resource = resources[0];
         RoadiePaths.setDevRoot(testLocation);
         for (String name: resources) {
-            Init.copyResource(name);
-            Path file = Paths.get(testLocation+"\\"+name);            
+            instance.copyResource(name);
+            Path file = RoadiePaths.get(name);
             assert(Files.exists(file));
         }
     }
@@ -101,14 +105,15 @@ public class InitTest {
      * Test of install method, of class Init.
      */
     @Test
-    public void testInstall_String() {
+    public void testInstall() {
         System.out.println("install");
         String devPath = testLocation;
-        Init.install(devPath);
+        RoadiePaths.setDevRoot(devPath);
+        instance.install();
         for (String name: resources) {
-            Path file = Paths.get(testLocation+"\\"+name);
+            Path file = RoadiePaths.get(name);
             System.out.println("file:"+file);
             assert(Files.exists(file));
         }
-    }        
+    }
 }

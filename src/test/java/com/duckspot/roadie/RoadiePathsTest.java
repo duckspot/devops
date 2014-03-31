@@ -85,10 +85,8 @@ public class RoadiePathsTest {
         expResult = Paths.get(getPath(),"tools");
         result = RoadiePaths.get("tools");
         assertEquals(expResult, result);
-        expResult = Paths.get(getPath(), "var", "cache", "devops");
-        result = RoadiePaths.get("packages");
-        expResult = Paths.get(getPath(),"var","cache","devops","partial");
-        result = RoadiePaths.get("packages/partial");
+        expResult = Paths.get(getPath(), "var", "cache", "roadie");
+        result = RoadiePaths.get("cache");
         assertEquals(expResult, result);
         expResult = Paths.get(getPath(), "setup.bat");
         result = RoadiePaths.get("setup.bat");
@@ -99,7 +97,7 @@ public class RoadiePathsTest {
         expResult = Paths.get(getPath(), "tools", "setup.bat");
         result = RoadiePaths.get("tools/setup.bat");
         assertEquals(expResult, result);
-        expResult = Paths.get(getPath(), "tools", "devops", "sources.list");
+        expResult = Paths.get(getPath(), "tools", "roadie", "sources.list");
         result = RoadiePaths.get("sources.list");
         assertEquals(expResult, result);    
     }

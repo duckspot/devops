@@ -1,0 +1,5 @@
+# resources to copy when initializing roadie
+setup.bat
+user.bat
+tools/setup.bat
+sources.list
