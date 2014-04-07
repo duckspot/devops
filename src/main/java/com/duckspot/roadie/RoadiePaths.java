@@ -40,9 +40,9 @@ public class RoadiePaths {
             // FOLDERS:
             case "": // root
                 return Paths.get(devopsPath);
-            case "tools": // organized by package
+            case "tools": // subdirs organized by tool_version
                 return Paths.get(devopsPath, "tools");
-            case "cache": // organized by package
+            case "cache": // subdirs organized by tool, files by source hash
                 return Paths.get(devopsPath, "var", "cache", "roadie");
             
             // FILES:
