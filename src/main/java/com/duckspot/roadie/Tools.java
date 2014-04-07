@@ -1,11 +1,14 @@
 package com.duckspot.roadie;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Manages sets of installed and online tools.
@@ -14,26 +17,33 @@ import java.util.Set;
  */
 public class Tools {
     
-    private Config config;
-    private Sources sources;
-    
-    List<String> categories;      
-    Map<String,List<String>> toolsInCategory; // 
     Map<String,Tool> tools; // tools by name
     
-    public void setConfig(Config config) {
-        this.config = config;
+    public void clear() {
+        tools.clear();
     }
     
-    public void setSources(Sources sources) {
-        this.sources = sources;
+    public String[] listTools() {
+        String[] result = tools.keySet().toArray(new String[0]);
+        Arrays.sort(result);
+        return result;
+    }
+    
+    public Tool getTool(String name) {
+        if (tools.containsKey(name)) {
+            return tools.get(name);
+        } else {
+            Tool result = new Tool(name);
+            tools.put(name, result);
+            return result;
+        }
     }
     
     public void addToolFromSetupBat(String line) {
         String[] parts = line.substring(11).split(" ");
         if (parts.length >= 1) {
             String name = parts[0];
-            Tool tool = new Tool(name);
+            Tool tool = getTool(name);
             if (parts.length >= 1) {
                 String version = parts[1];
                 tool.select(version);
@@ -52,5 +62,23 @@ public class Tools {
                 addToolFromSetupBat(line);
             }
         }
-    }        
+    }
+    
+    public void toolsFromSource(Source source) {
+        int lineCounter = 0;
+        for (String line: source.getLines()) {
+            lineCounter++;
+            String[] parts = line.split(" ");
+            if (parts.length < 3) {
+                Logger.getLogger(Sources.class.getName()).log(Level.SEVERE, 
+                        String.format("%s (%d) must have three components", 
+                                source.getURI(), lineCounter));
+            } else {
+                String name = parts[0];
+                String version = parts[1];
+                URI toolSource = source.getURI().resolve(parts[2]);
+                getTool(name).getVersion(version).addSource(toolSource);
+            }
+        }
+    }
 }
