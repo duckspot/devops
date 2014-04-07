@@ -4,19 +4,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * ListFile is responsible for reading lines from an InputStream and stripping
  * out everything after the first # on each line, and stripping out
- * blank lines
+ * blank lines.
  */
 public class ListFile {
    
     private Scanner src;    
     private InputStream is;
+    private int lineNumber;
     
     public ListFile(Path path) throws IOException {
         is = Files.newInputStream(path);
@@ -34,6 +36,7 @@ public class ListFile {
         } catch (NoSuchElementException ex) {
             if (is != null) {
                 is.close();
+                is = null;
             }
             throw ex;
         }
@@ -56,6 +59,22 @@ public class ListFile {
         while (s.length() == 0) {
             s = nextOrEmptyLine();
         }
+        lineNumber++;
         return s;
+    }
+    
+    public List<String> asList() throws IOException {
+        List<String> result = new ArrayList<String>();
+        try {
+            while (true) {
+                result.add(nextLine());
+            }
+        } catch (NoSuchElementException ex) {
+            return result;
+        }
+    }
+    
+    public int getLineNumber() {
+        return lineNumber;
     }
 }
