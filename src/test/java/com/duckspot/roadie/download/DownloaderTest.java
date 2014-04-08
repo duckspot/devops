@@ -6,8 +6,6 @@
 
 package com.duckspot.roadie.download;
 
-import com.duckspot.roadie.download.Download;
-import com.duckspot.roadie.download.Downloader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
