@@ -2,85 +2,123 @@ package com.duckspot.roadie;
 
 import com.duckspot.util.ListFile;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Sources {
     
     private List<Source> online = new ArrayList<>();
 
-    private Source sourceFromLine(String line) throws MalformedURLException, IOException {
+    private Source sourceFromLine(String line) throws IOException, URISyntaxException {
         int space = line.indexOf(' ');
-        String urlString = line;
+        String uriString = line;
         String name = line;
         if (space >= 0) {
-            urlString = line.substring(0, space);
+            uriString = line.substring(0, space);
             name = line.substring(space).trim();
         }
-        return new Source(new URL(urlString), name);
+        URI sourceURI = new URI(uriString);
+        return new Source(sourceURI, name);
     }
     
     /**
      * Check all the sources in sources.list to see which ones are online.
      * Read tool list from any source where we have no cached tool list.
      */
-    public void checkSources() throws IOException {
-        ListFile list = new ListFile(RoadiePaths.get("sources.list"));
+    public void checkSources() {
         try {
-            while (true) {
-                Source source = sourceFromLine(list.nextLine());
-                if (source.isCached()) {
-                    if (source.isOnline()) {
-                        online.add(source);
-                    }
-                } else {
-                    if (source.attemptCache()) {
-                        online.add(source);
+            ListFile list = new ListFile(RoadiePaths.get("sources.list"));
+            online.clear();
+            try {
+                while (true) {
+                    String line = list.nextLine();
+                    try {
+                        Source source = sourceFromLine(line);
+                        if (source.isCached()) {
+                            if (source.isOnline()) {
+                                online.add(source);
+                            }
+                        } else {
+                            if (source.sourceToCache()) {
+                                online.add(source);
+                            }
+                        }
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(Sources.class.getName())
+                                .log(Level.SEVERE,String.format(
+                                        "sources.list(%d) invalid URI",
+                                        list.getLineNumber()), ex);
                     }
                 }
+            } catch (NoSuchElementException ex) {
+                // exception ends loop
             }
-        } catch (NoSuchElementException ex) {
-            // exception ends loop
+        } catch (IOException ex) {
+            Logger.getLogger(Sources.class.getName())
+                    .log(Level.SEVERE,"Error reading sources.list", ex);
         }
     }
     
-    public void writeSourcesOnline() throws IOException {
-        BufferedWriter out = Files.newBufferedWriter(
-                RoadiePaths.get("sources.online"), Charset.defaultCharset());
+    public void writeSourcesOnline() {
         try {
-            for (Source source: online) {                
-                out.write(source.toLine());
+            BufferedWriter out = Files.newBufferedWriter(
+                    RoadiePaths.get("sources.online"), 
+                    Charset.defaultCharset());
+            try {
+                for (Source source: online) {                
+                    out.write(source.toLine());
+                }
+            } finally {
+                out.close();
             }
-        } finally {
-            out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Sources.class.getName())
+                    .log(Level.SEVERE,"Error writing sources.list", ex);
         }
     }
     
-    public void readSourcesOnline() throws IOException {
-        ListFile list = new ListFile(RoadiePaths.get("sources.online"));
+    public void readSourcesOnline() {
         try {
-            while (true) {
-                Source source = sourceFromLine(list.nextLine());
-                online.add(source);                
+            ListFile list = new ListFile(RoadiePaths.get("sources.online"));
+            try {
+                while (true) {
+                    String line = list.nextLine();                
+                    try {
+                        online.add(sourceFromLine(line));
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(Sources.class.getName())
+                                .log(Level.SEVERE,String.format(
+                                        "sources.online(%d) invalid URI",
+                                        list.getLineNumber()), ex);
+                    }                
+                }
+            } catch (NoSuchElementException ex) {
+                // exception ends loop
             }
-        } catch (NoSuchElementException ex) {
-            // exception ends loop
+        }
+        catch (NoSuchFileException ex) {
+            // ignore
+        }
+        catch (FileNotFoundException ex) {
+            // ignore
+        }
+        catch (IOException ex) {
+            Logger.getLogger(Sources.class.getName())
+                    .log(Level.SEVERE,"Error reading sources.list", ex);
         }
     }
     
-    /**
-     * Reread tool lists from online sources where our tool list may be out of
-     * date.
-     */
-    public void refreshTools() {
-        for (Source source: online) {
-            source.refreshCache();
-        }
-    }    
+    public List<Source> getOnline() {
+        return online;
+    }
 }

@@ -3,8 +3,6 @@ package com.duckspot.roadie;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Manages a particular configuration on a particular development environment.
@@ -19,8 +17,6 @@ public class Config {
     public Config() {
         sources = new Sources();
         tools = new Tools();
-        tools.setConfig(this);
-        tools.setSources(sources);
         valid = Files.exists(RoadiePaths.get("roadie.jar")) &&
                 Files.exists(RoadiePaths.get("setup.bat")) &&
                 Files.exists(RoadiePaths.get("user.bat")) && 
