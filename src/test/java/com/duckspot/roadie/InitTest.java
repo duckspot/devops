@@ -105,7 +105,7 @@ public class InitTest {
      * Test of install method, of class Init.
      */
     @Test
-    public void testInstall() {
+    public void testInstall() throws IOException {
         System.out.println("install");
         String devPath = testLocation;
         RoadiePaths.setDevRoot(devPath);
