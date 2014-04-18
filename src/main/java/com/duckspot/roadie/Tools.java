@@ -5,7 +5,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class Tools {
     
-    Map<String,Tool> tools; // tools by name
+    Map<String,Tool> tools = new HashMap<>(); // tools by name
     
     public void clear() {
         tools.clear();
@@ -44,7 +44,7 @@ public class Tools {
         if (parts.length >= 1) {
             String name = parts[0];
             Tool tool = getTool(name);
-            if (parts.length >= 1) {
+            if (parts.length >= 2) {
                 String version = parts[1];
                 tool.select(version);
             }
