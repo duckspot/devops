@@ -27,7 +27,7 @@ public class Init {
         Path dest = RoadiePaths.get(resource);
         assert dest != null;
         try {
-            FileUtil.checkDirectory(dest.getParent());
+            FileUtil.checkDirectory(dest.getParent());            
             Files.copy(resource.getClass().getResourceAsStream("/dev/"+resource), 
                     dest, REPLACE_EXISTING);
         } catch (IOException ex) {
@@ -45,6 +45,20 @@ public class Init {
         } catch (IOException ex) {
             throw new Error("unexpected exception", ex);
         }
+    }
+    
+    public boolean isInstalled() throws IOException {
+        ListFile list = new ListFile(
+                getClass().getResourceAsStream("/dev/file.list"));
+        try {
+            while (true) {
+                if (!Files.exists(RoadiePaths.get(list.nextLine()))) {
+                    return false;
+                }
+            }
+        } catch (NoSuchElementException ex) {
+            return true;
+        }        
     }
     
     public void install() throws IOException {
