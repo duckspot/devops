@@ -42,8 +42,10 @@ public class Sources {
             try {
                 while (true) {
                     String line = list.nextLine();
+                    System.out.println("line:"+line);
                     try {
                         Source source = sourceFromLine(line);
+                        System.out.println("source:"+source);
                         if (source.isCached()) {
                             if (source.isOnline()) {
                                 online.add(source);
