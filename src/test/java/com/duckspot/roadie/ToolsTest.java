@@ -109,6 +109,10 @@ public class ToolsTest {
         Tools instance = new Tools();
         instance.toolsFromSource(source);
         String[] tools = instance.listTools();
-        assertEquals(1, tools.length);        
+        assertEquals(1, tools.length);
+        Tool tool = instance.getTool(tools[0]);
+        String[] versions = tool.listVersions();
+        String[] expResult = { "1.8.5.2.msysgit.0" };
+        assertArrayEquals(expResult, versions);
     }
 }
