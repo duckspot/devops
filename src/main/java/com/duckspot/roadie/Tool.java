@@ -17,11 +17,15 @@ public class Tool {
         this.name = name;
     }
     
+    public String[] listVersions() {
+        return toolVersions.keySet().toArray(new String[0]);
+    }
+    
     public ToolVersion getVersion(String version) {
         ToolVersion result = toolVersions.get(version);
         if (result == null) {
             result = new ToolVersion(name, version);
-            toolVersions.put(name, result);
+            toolVersions.put(version, result);
         }
         return result;
     }
@@ -40,15 +44,4 @@ public class Tool {
             selected.setInstalled(installed);
         }
     }
-    
-    public void install() {
-        selected().install();
-    }
-    
-    public void remove() {
-        selected().remove();
-    }
-    
-    void addVersionSource(String version, URI toolSource) {        
-    }        
 }
