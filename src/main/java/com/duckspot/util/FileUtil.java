@@ -73,6 +73,9 @@ public class FileUtil {
         });
     }
     
+    /**
+     * check if a directory exists, and if it doesn't create it.
+     */
     public static void checkDirectory(Path path) {
         
         if (Files.exists(path)) {
