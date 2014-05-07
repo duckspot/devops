@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class ProcessUtil {
     
-    static String batchFile(Path batchFile) throws IOException {
+    public static String batchFile(Path batchFile) throws IOException {
         StringBuilder result = new StringBuilder();
         ProcessBuilder pb = new ProcessBuilder(batchFile.toString());
         pb.redirectErrorStream(true);
