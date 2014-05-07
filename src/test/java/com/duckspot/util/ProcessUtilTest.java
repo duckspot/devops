@@ -1,5 +1,6 @@
 package com.duckspot.util;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +23,8 @@ public class ProcessUtilTest {
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws IOException {
+        FileUtil.deleteDirectory(Paths.get("dev"));
     }
     
     @Before
@@ -41,6 +43,7 @@ public class ProcessUtilTest {
         System.out.println("batchFile");
         Path batchFile = Paths.get("dev", "test.bat");
         String[] script = { "@echo one", "@echo two" };
+        FileUtil.checkDirectory(batchFile.getParent());
         Files.write(batchFile, Arrays.asList(script), Charset.defaultCharset());
         String expResult = "one\ntwo\n";
         String result = ProcessUtil.batchFile(batchFile);
