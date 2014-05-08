@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ * Manages a collection of tool versions that may be installed.
  */
 public class Tool {
  
