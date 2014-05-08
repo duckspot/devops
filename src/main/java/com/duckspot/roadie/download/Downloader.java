@@ -1,11 +1,14 @@
 package com.duckspot.roadie.download;
 
+import com.duckspot.util.FileUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Downloader takes download jobs and performs them in the background.
@@ -31,7 +34,6 @@ public class Downloader implements Runnable {
     
     private Downloader() {        
     }
-        
     
     public void download(Download download) {
         
@@ -42,11 +44,14 @@ public class Downloader implements Runnable {
          */
         InputStream in = null;
         OutputStream out = null;
+        int totalBytes = 0;
                 
-        download.setStatus(Download.STARTED);
+        download.setStatus(Download.STARTED);        
         inProcess.add(download);
         try {
-            in = download.getSrcURL().openStream();   
+            in = download.getSrcURL().openStream();
+
+            FileUtil.checkDirectory(download.getDstPath().getParent());
             out = Files.newOutputStream(download.getDstPath());
             int nBytes;
             while (true) {
@@ -54,9 +59,14 @@ public class Downloader implements Runnable {
                 if (nBytes <= 0) {
                     break;
                 }
+                
                 out.write(buffer, 0, nBytes);
+                totalBytes += nBytes;
+                download.setBytes(totalBytes);                
             } while (nBytes > 0);
         } catch (IOException ex) {
+            Logger.getLogger(com.duckspot.roadie.Package.class.getName())
+                    .log(Level.SEVERE, "download failed", ex);
             download.setStatus(Download.FAILED);
         } finally {
             if (out != null) {
