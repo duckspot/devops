@@ -11,8 +11,8 @@ import static org.junit.Assert.*;
 
 public class ToolTest {
     
-    static String toolName = "git";
-    static String toolVersion = "1.8.5.2.msysgit.0";
+    static String toolName = "test";
+    static String toolVersion = "1.0";
     
     public ToolTest() {
     }
