@@ -8,7 +8,8 @@ import java.util.List;
 import org.json.JSONObject;
 
 /**
- *
+ * ToolVersion holds a collection of sources that have the install/remove 
+ * information for a tool.
  */
 public class ToolVersion {
 
@@ -28,11 +29,11 @@ public class ToolVersion {
     
     public Package getPackage() {
         for (URI packageSource: sources) {
-            try {
+            try {                
                 JSONObject jo = JsonUtil.getJSON(packageSource);
                 if (toolName.equals(jo.getString("tool")) &&
                         version.equals(jo.getString("version"))) {
-                    return new Package(jo);
+                    return new Package(packageSource, jo);
                 }
             } catch (IOException ex) {
                 // ignore
@@ -41,15 +42,6 @@ public class ToolVersion {
         throw new Error(String.format("can't find %s: %s",toolName,version));
     }
     
-    public void install() {
-        getPackage().download();
-        setInstalled(true);
-    }
-    public void remove() {
-        getPackage().remove();
-        setInstalled(false);
-    }
-
     public void setInstalled(boolean installed) {
         this.installed = installed;
     }
