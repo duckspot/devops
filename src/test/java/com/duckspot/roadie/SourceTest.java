@@ -28,8 +28,8 @@ public class SourceTest {
     
     @BeforeClass
     public static void setUpClass() throws URISyntaxException {
-        sourceURI = new URI("http://duckspot.com/roadie-tools/package.list");
-        name = "duckspot.com/roadie-tools";
+        sourceURI = new URI("http://duckspot.com/roadie-tools/test/package.list");
+        name = "duckspot.com/roadie-tools/test";
         RoadiePaths.setDevRoot("dev");
     }
     
@@ -107,7 +107,7 @@ public class SourceTest {
     public void testGetCachePath() throws IOException {
         System.out.println("isCached");
         Source instance = new Source(sourceURI, name);        
-        Path expResult = RoadiePaths.get("cache").resolve("5988b905_tools.list");
+        Path expResult = RoadiePaths.get("cache").resolve("4214b076_tools.list");
         Path result = instance.getCachePath();
         assertEquals(expResult, result);
     }
@@ -162,8 +162,7 @@ public class SourceTest {
         System.out.println("getLines");
         System.out.println("sourceURI:"+sourceURI);
         Source instance = new Source(sourceURI, name);
-        String[] lines = {"git 1.8.5.2.msysgit.0 "
-                + "git/git_1.8.5.2.msysgit.0_install.json"};
+        String[] lines = {"test 1.0 test/test_install.json"};
         List<String> expResult = Arrays.asList(lines);
         List<String> result = instance.getLines();
         assertEquals(expResult, result);        
