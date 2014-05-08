@@ -23,11 +23,23 @@ public class Config {
                 Files.exists(RoadiePaths.get("tools/setup.bat")) &&
                 readUserBat();        
         if (!valid) return;
-//        tools.readToolsSetupBat();
-        if (!valid) return;
-//        sources.readSourcesOnline();
+        sources.readSourcesOnline();
+        if (sources.getOnline().isEmpty()) {
+            sources.checkSources();
+            sources.writeSourcesOnline();
+        }
+        for (Source source: sources.getOnline()) {            
+            tools.toolsFromSource(source);
+        }
     }
     
+    public void checkSources() {
+        sources.checkSources();
+        tools.clear();
+        for (Source source: sources.getOnline()) {            
+            tools.toolsFromSource(source);
+        }
+    }
     public boolean isValidSetup() {
         return valid;
     }    
