@@ -87,12 +87,12 @@ public class App
             case "install":
                 if (args.length == 2) {                    
                     System.out.printf("install %s", args[1]);
-                    new Tool(args[1]).install();
+                    new Tool(args[1]).selected().getPackage().install();
                     break;
                 }
                 if (args.length == 3) {
                     System.out.printf("install %s", args[1]);
-                    new Tool(args[1]).select(args[3]).install();
+                    new Tool(args[1]).select(args[3]).getPackage().install();
                     break;
                 }
                 throw new Error("install command requires one or two arguments: "
