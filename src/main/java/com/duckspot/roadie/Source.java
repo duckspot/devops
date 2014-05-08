@@ -15,7 +15,8 @@ import java.util.List;
 /**
  * Manages one source of tools.  Each source has an 'tools.list' file that 
  * contains information about each Package available from that source, where a
- * package is a particular version of a tool.
+ * package is information about how to install and remove a particular version 
+ * of a tool.
  */
 public class Source {
     
