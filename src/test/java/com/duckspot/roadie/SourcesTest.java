@@ -27,8 +27,8 @@ public class SourcesTest {
     
     @BeforeClass
     public static void setUpClass() throws URISyntaxException, IOException {
-        sourceURI = new URI("http://duckspot.com/roadie-tools/package.list");
-        name = "duckspot.com/roadie-tools";
+        sourceURI = new URI("http://duckspot.com/roadie-tools/test/package.list");
+        name = "duckspot.com/roadie-tools/test";
         RoadiePaths.setDevRoot("dev");
         Path slPath = RoadiePaths.get("sources.list");
         if (!Files.exists(slPath)) {
